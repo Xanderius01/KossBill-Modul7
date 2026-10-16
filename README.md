@@ -26,7 +26,7 @@ KossBill-Modul7/
 
 ## Cara menjalankan di VS Code
 
-1. Ekstrak ZIP proyek ke folder yang mudah ditemukan.
+1. Clone repositori atau unduh proyek ke folder yang mudah ditemukan.
 2. Buka VS Code → **File → Open Folder** → pilih folder `KossBill-Modul7`.
 3. Pasang ekstensi **Live Server** jika belum tersedia.
 4. Klik kanan `index.html` → **Open with Live Server**.
@@ -57,48 +57,83 @@ Ini adalah **prototipe front-end untuk tugas**, bukan layanan kos sungguhan. Tid
 - Implementasi ini mengacu pada ekspor desain Figma yang disediakan. Karena desain sumber berupa tangkapan layar dan SVG, beberapa elemen disusun ulang sebagai komponen HTML responsif dan interaktif.
 - Rubrik Modul 7 yang dibagikan: repositori GitHub publik, commit deskriptif, kesesuaian visual dan responsivitas, minimal dua interaksi dinamis, serta dokumentasi/PRD.
 
-## Saran alur Git untuk memenuhi rubrik
+## Kontribusi Anggota Kelompok 12
 
-Jalankan dari terminal VS Code di dalam folder proyek:
+Pembagian tugas mengikuti empat pilar penilaian Modul 7. Setiap pilar bernilai 25%, sehingga beban kerja dibagi rata dan adil untuk empat anggota.
 
-```bash
-git init
-git add index.html
-git commit -m "chore: add initial KossBill page structure"
+| No | Nama | Pilar Modul 7 | Bobot | Fokus Tanggung Jawab |
+|----|------|---------------|-------|----------------------|
+| 1 | Xanderius Eusebius Verseli | Git & Workflow | 25% | Pengelolaan repositori GitHub dan riwayat commit |
+| 2 | Christianus Leo Beda | Fidelitas Desain & Responsif | 25% | Kesesuaian tampilan dengan Figma Modul 5 di semua ukuran layar |
+| 3 | Mario Paulinus Sodho Mogi | Interaktivitas | 25% | Fitur dinamis dan logika JavaScript |
+| 4 | Arvanda Heryan Setiawan | Dokumentasi & PRD | 25% | PRD, README, log prompt AI, dan catatan perbaikan |
 
-git add style.css
-git commit -m "style: create responsive KossBill layout"
+### Rincian tugas per anggota
 
-git add script.js
-git commit -m "feat: add search filters and property cards"
+#### 1. Xanderius Eusebius Verseli — Git & Workflow
+- Membuat dan menginisialisasi repositori publik `KossBill-Modul7`.
+- Menyusun struktur folder, `.gitignore`, dan konfigurasi awal proyek.
+- Menetapkan konvensi pesan commit (`feat:`, `style:`, `docs:`, `assets:`, `fix:`).
+- Memastikan riwayat commit berkala (minimal 5 commit) dengan pesan deskriptif.
+- Menggabungkan hasil kerja anggota lain dan menjaga repositori tetap rapi.
+- Mengaktifkan GitHub Pages sebagai demo publik (opsional).
 
-git add assets
-git commit -m "assets: add exported KossBill design references"
+#### 2. Christianus Leo Beda — Fidelitas Desain & Responsif
+- Mengekstraksi hierarki elemen, warna, tipografi, dan aset dari Figma Modul 5.
+- Menyusun `style.css` beserta token visual (warna, spasi, radius, font).
+- Menerapkan tata letak responsif untuk mobile, tablet, dan desktop.
+- Menguji agar tidak ada broken layout di berbagai lebar layar.
+- Mencocokkan hasil akhir dengan desain Figma (proporsi dan hierarki visual).
 
-git add README.md PRD-Modul-7.pdf
-git commit -m "docs: add project guide and Modul 7 PRD"
-```
+#### 3. Mario Paulinus Sodho Mogi — Interaktivitas
+- Mengimplementasikan `script.js` dengan interaksi stateful:
+  - pencarian kos (nama, daerah, tipe, fasilitas),
+  - filter kategori dan pengurutan (harga, rating),
+  - wishlist (simpan dan hapus),
+  - form pemesanan dengan validasi, serta riwayat pemesanan,
+  - penyimpanan data dengan `localStorage`.
+- Memastikan aplikasi bebas crash dan error di Console browser.
+- Menguji seluruh alur interaksi dari awal sampai akhir.
 
-Lalu buat repository **public** di GitHub, hubungkan remote sesuai URL repository milikmu, dan jalankan:
+#### 4. Arvanda Heryan Setiawan — Dokumentasi & PRD
+- Menyusun Product Requirement Document (PRD) dalam format PDF.
+- Melengkapi `README.md`: panduan menjalankan, link Figma, kontribusi anggota.
+- Mencatat log prompt AI yang digunakan selama pengerjaan.
+- Mencatat catatan perbaikan manual (bug dan koreksi hasil AI).
+- Menyusun `TESTING.md` berisi hasil pengujian.
 
-```bash
-git branch -M main
-git remote add origin https://github.com/USERNAME/NAMA-REPO.git
-git push -u origin main
-```
+### Tanggung jawab bersama
+- Setiap anggota menyumbang contoh prompt AI untuk bagian yang dikerjakannya ke log prompt.
+- Setiap anggota melaporkan bug atau perbaikan manual yang ia lakukan ke penanggung jawab dokumentasi.
+- Hasil kerja ditinjau bersama sebelum digabungkan ke branch `main`.
+- Setiap anggota ikut menguji aplikasi sebelum pengumpulan.
 
-Ganti `USERNAME/NAMA-REPO` dengan repository kamu sendiri. Jangan mengaku sudah push sebelum benar-benar melakukannya.
+## Log Prompt AI
 
-## Checklist sebelum dikumpulkan
+AI digunakan sebagai pendamping dalam memahami tugas, mengembangkan prototipe website, menggunakan Git dan GitHub, serta menyusun dokumentasi dan pengujian proyek KossBill. Hasil dari AI ditinjau dan diuji oleh kelompok.
 
-- [ ] Jalankan website melalui Live Server.
-- [ ] Uji pencarian, filter, wishlist, detail, pemesanan, dan riwayat.
-- [ ] Uji lebar layar desktop dan ponsel.
-- [ ] Pastikan tidak ada error di Console browser.
-- [ ] Buat repository GitHub publik.
-- [ ] Pastikan minimal 5 commit yang benar-benar dilakukan.
-- [ ] Perbarui README dengan nama anggota/kontribusi kelompok bila dibutuhkan dosen.
-- [ ] Tambahkan URL repository GitHub ke dokumen pengumpulan.
+| No | Tahap | Prompt |
+|----|-------|--------|
+| 1 | Memahami tugas | Pelajari dan pahami instruksi Modul 7 beserta rubrik penilaiannya. |
+| 2 | Menganalisis desain Figma | Gunakan desain Figma KossBill sebagai referensi pembuatan website. |
+| 3 | Membuat website | Buat proyek KossBill dari awal menggunakan HTML, CSS, dan JavaScript di VS Code. |
+| 4 | Membuat fitur interaktif | Tambahkan navigasi, pencarian, filter kos, wishlist, detail kos, pemesanan, dan riwayat. |
+| 5 | Git dan GitHub | Bantu saya mengatur Git, membuat commit, dan mengunggah proyek ke GitHub. |
+| 6 | Dokumentasi proyek | Bantu lengkapi README.md, PRD, dan dokumentasi pengujian. |
+| 7 | Pengujian responsivitas | Bantu saya menguji tampilan mobile, tablet, dan desktop. |
+| 8 | Memperbarui TESTING.md | Perbarui dokumentasi berdasarkan hasil pengujian responsivitas yang telah dilakukan. |
+| 9 | Sinkronisasi GitHub | Bantu periksa dan sinkronkan perubahan file antara VS Code dan GitHub. |
+
+## Catatan Perbaikan Manual
+
+Peninjauan dan penyesuaian hasil AI yang dilakukan anggota kelompok.
+
+| No | Anggota | Perbaikan / peninjauan manual |
+|----|---------|-------------------------------|
+| 1 | Xanderius Eusebius Verseli (Git & Workflow) | Memeriksa dan menyinkronkan perubahan file antara VS Code dan GitHub, serta merapikan isi repositori sebelum pengumpulan. |
+| 2 | Christianus Leo Beda (Fidelitas & Responsif) | Karena sumber desain berupa tangkapan layar dan SVG, menyusun ulang elemen Figma menjadi komponen HTML responsif; menyesuaikan warna aksen hijau, kartu membulat, serta navigasi atas (desktop) dan bawah (ponsel); menguji tampilan di ponsel, tablet, dan desktop. |
+| 3 | Mario Paulinus Sodho Mogi (Interaktivitas) | Menguji manual alur pencarian, filter, pengurutan, wishlist, formulir pemesanan, dan riwayat; memeriksa validasi formulir dan penyimpanan localStorage; memastikan tidak ada error di Console browser. |
+| 4 | Arvanda Heryan Setiawan (Dokumentasi & PRD) | Memperbarui TESTING.md berdasarkan hasil uji responsivitas, serta menyesuaikan README dan PRD dengan kondisi proyek (kontribusi anggota, tautan GitHub, log prompt, dan penghapusan teks template). |
 
 ## Repository GitHub
 
