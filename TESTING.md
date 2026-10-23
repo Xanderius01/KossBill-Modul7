@@ -1,37 +1,51 @@
-# Dokumentasi Pengujian KossBill
+# Dokumentasi Pengujian KossBill — Modul 8
 
-## 1. Lingkungan Pengujian
+## Lingkungan
+- Editor: Visual Studio Code
+- Server lokal: Live Server
+- Browser: Google Chrome
+- Metode: pengujian manual pada desktop, tablet, dan mobile
 
-- **Proyek:** KossBill — Prototipe Web Interaktif Modul 7
-- **Tools:** Visual Studio Code, Live Server, Google Chrome
-- **Metode:** Pengujian manual melalui browser
-- **Status:** Pengujian fitur utama dan responsivitas telah dilakukan berdasarkan hasil pengujian yang tercatat.
+## Checklist fungsional
 
-## 2. Hasil Pengujian Fitur
+- [ ] Website dijalankan melalui Live Server (bukan `file://`).
+- [ ] Data dimuat dari `data/properties.json`.
+- [ ] Loading skeleton tampil selama pemuatan data.
+- [ ] Jika file JSON tidak tersedia, error state dan tombol **Coba lagi** tampil.
+- [ ] Pencarian menyaring nama, lokasi, tipe, dan fasilitas.
+- [ ] Filter kategori dan pengurutan berfungsi.
+- [ ] Kata kunci tanpa hasil menampilkan empty state; tombol Reset memulihkan hasil.
+- [ ] Wishlist dapat ditambah/dihapus dan bertahan setelah halaman dimuat ulang.
+- [ ] Detail kos membuka properti yang benar.
+- [ ] Form menolak input kosong, nama terlalu pendek, nomor telepon tidak valid, dan tanggal lampau.
+- [ ] Tombol form menampilkan status **Mengirim...** saat submit.
+- [ ] Pengajuan valid menghasilkan konfirmasi dan muncul pada riwayat.
+- [ ] Profil dapat diperbarui; toast muncul sebagai umpan balik.
+- [ ] Tidak ada error JavaScript pada Console.
 
-| No. | Fitur | Hasil | Catatan |
-|---|---|---|---|
-| 1 | Website melalui Live Server | Lulus | Website berhasil dibuka |
-| 2 | Navigasi Beranda, Cari Kos, Wishlist, dan Riwayat | Lulus | Navigasi berfungsi |
-| 3 | Pencarian dan filter kos | Lulus | Pencarian dan filter berhasil diuji |
-| 4 | Tambah dan hapus Wishlist | Lulus | Wishlist berfungsi |
-| 5 | Formulir pemesanan | Lulus | Formulir berhasil diuji |
-| 6 | Riwayat pemesanan | Lulus | Riwayat berhasil diuji |
-| 7 | Tampilan desktop, tablet, dan mobile | Lulus | Ketiga ukuran layar berhasil diuji |
-| 8 | Console browser | Lulus | Tidak ditemukan error saat pengujian |
+## Checklist responsivitas
 
-## 3. Hasil Pengujian Responsivitas
+- [ ] Mobile (sekitar 375–430 px): tidak ada horizontal overflow; kartu, form, filter, dan navigasi mudah digunakan.
+- [ ] Tablet (768 px): grid dan formulir tetap rapi.
+- [ ] Desktop (1366 px): hierarki visual, jarak, dan navigasi tampil baik.
 
-| Ukuran layar | Hasil | Catatan |
-|---|---|---|
-| Mobile — 375 px | Lulus | Tidak ada overflow; teks, kartu, gambar, tombol, dan navigasi berfungsi |
-| Tablet — 768 px | Lulus | Elemen tetap berada dalam layar; teks, gambar, kartu, jarak, navigasi, dan tombol rapi |
-| Desktop — 1366 px | Lulus | Elemen tetap berada dalam layar; teks, gambar, kartu, jarak, navigasi, dan tombol rapi |
+## Hasil pengujian
 
-## 4. Kesimpulan
+## Pemeriksaan otomatis yang dilakukan pada revisi Stage 1–2
+- `node --check script.js`: lulus (sintaks JavaScript valid).
+- `data/properties.json`: 52 record valid dengan ID unik; setiap record memiliki nama, lokasi, dan gambar.
+- Semua ID elemen HTML yang dirujuk langsung oleh selector JavaScript tersedia.
+- Seluruh nama file gambar yang tercantum pada data ditemukan di folder `assets`.
+- Pemeriksaan browser interaktif pada perangkat pengguna masih perlu dilakukan; checklist manual di atas belum otomatis dianggap lulus.
 
-Berdasarkan pengujian manual yang dilakukan, fitur utama KossBill dan tampilan responsif pada ukuran mobile, tablet, serta desktop dinyatakan lulus. Pengujian ini merupakan pengujian prototipe frontend dan tidak membuktikan keamanan autentikasi, pemrosesan pembayaran nyata, atau fungsi backend produksi.
+Isi status (Lulus/Gagal), tanggal, browser, dan catatan setelah seluruh pengujian dilakukan. Jangan menandai tes manual sebagai lulus sebelum benar-benar diuji pada browser.
 
-## 5. Catatan
+## Pengujian tambahan Tahap 3–5
 
-Dokumentasi ini perlu diperbarui apabila terdapat perubahan fitur atau hasil pengujian baru.
+- [x] Sintaks JavaScript lolos `node --check`.
+- [x] `data/properties.json` dapat diparse sebagai JSON (52 data sumber pada versi ini).
+- [x] HTML berisi section Peta dan Bandingkan serta elemen target yang digunakan JavaScript.
+- [x] CSS tema gelap khusus riwayat ditambahkan untuk menghindari teks pucat di kartu putih.
+- [x] Perbandingan dibatasi maksimal tiga listing dan disimpan pada localStorage.
+- [x] Peta tidak membuat penanda jika data belum memiliki koordinat terverifikasi; daftar sumber tetap tersedia.
+- [ ] Pengujian klik end-to-end di browser pengguna belum dilakukan. Uji dengan Live Server dan koneksi internet sebelum demo akhir.

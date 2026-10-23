@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
   <header class="topbar">
@@ -17,12 +18,16 @@
     <nav class="desktop-nav" aria-label="Navigasi utama">
       <button class="nav-link active" data-nav="home">Beranda</button>
       <button class="nav-link" data-nav="search">Cari Kos</button>
+      <button class="nav-link" data-nav="map">Peta</button>
+      <button class="nav-link" data-nav="compare">Bandingkan</button>
       <button class="nav-link" data-nav="bookmarks">Wishlist</button>
       <button class="nav-link" data-nav="history">Riwayat</button>
     </nav>
     <div class="top-actions">
+      <button class="icon-button global-back hidden" id="globalBack" aria-label="Kembali ke halaman sebelumnya" title="Kembali">←</button>
+      <button class="icon-button" id="themeToggle" aria-label="Aktifkan mode gelap" title="Mode gelap">☾</button>
       <button class="icon-button" data-nav="bookmarks" aria-label="Wishlist">♡ <span class="wishlist-count">0</span></button>
-      <button class="profile-button" id="profileBtn"><span class="avatar">R</span><span class="profile-name">Rosalina Yani</span><span aria-hidden="true">⌄</span></button>
+      <button class="profile-button" id="profileBtn"><span class="avatar">U</span><span class="profile-name">Masuk / Daftar</span><span aria-hidden="true">⌄</span></button>
     </div>
   </header>
 
@@ -42,7 +47,7 @@
         <div class="hero-art">
           <div class="hero-image-wrap"><img src="assets/Rectangle-7-1.jpg" alt="Interior kamar kos yang nyaman"></div>
           <div class="floating-note note-top"><span class="note-icon">⌂</span><span><b>Tempat nyaman</b><small>untuk fokus dan istirahat</small></span></div>
-          <div class="floating-note note-bottom"><span class="star">★</span><span><b>4.8/5</b><small>rating penghuni</small></span></div>
+          
           <div class="hero-blob"></div>
         </div>
       </div>
@@ -51,7 +56,7 @@
         <div class="section-heading"><div><span class="eyebrow">Pencarian praktis</span><h2>Cari kos sesuai kebutuhan</h2></div><button class="text-link" data-nav="search">Lihat semua kos <span>→</span></button></div>
         <div class="category-grid">
           <button class="category-card" data-category="Terdekat"><span class="category-icon mint">⌖</span><b>Terdekat</b><small>Lokasi strategis</small></button>
-          <button class="category-card" data-category="Tahunan"><span class="category-icon blue">▦</span><b>Sewa Tahunan</b><small>Lebih praktis</small></button>
+          
           <button class="category-card" data-category="Bulanan"><span class="category-icon peach">▣</span><b>Sewa Bulanan</b><small>Fleksibel</small></button>
           <button class="category-card" data-category="Termurah"><span class="category-icon lilac">♧</span><b>Termurah</b><small>Ramah kantong</small></button>
         </div>
@@ -59,19 +64,52 @@
 
       <section class="section">
         <div class="section-heading"><div><span class="eyebrow">Pilihan untukmu</span><h2>Rekomendasi kos</h2><p class="section-subtitle">Pilihan menarik di sekitar Purwokerto.</p></div><button class="text-link" data-nav="search">Jelajahi semua <span>→</span></button></div>
-        <div class="property-grid" id="homeProperties"></div>
+        <div class="property-grid" id="homeProperties" aria-live="polite" aria-busy="true"></div>
       </section>
       <section class="cta-strip"><div><span class="eyebrow light">Mulai langkahmu</span><h2>Kos yang tepat bikin hari lebih hebat.</h2><p>Temukan pilihan yang cocok dengan gaya hidup dan anggaranmu.</p></div><button class="light-btn" data-nav="search">Temukan kos <span>→</span></button></section>
     </section>
 
     <section class="view" id="view-search">
       <div class="page-heading"><div><span class="eyebrow">Jelajahi pilihan</span><h1>Cari kos impianmu</h1><p>Gunakan pencarian dan filter untuk menemukan tempat yang paling sesuai.</p></div><div class="result-chip"><span class="dot"></span><span id="resultCount">0 pilihan</span></div></div>
-      <div class="search-tools"><label class="search-field"><span>⌕</span><input id="searchQuery" type="search" placeholder="Nama kos, daerah, atau fasilitas..."></label><label class="filter-select"><span>Urutkan</span><select id="sortSelect"><option value="recommended">Rekomendasi</option><option value="low">Harga terendah</option><option value="high">Harga tertinggi</option><option value="rating">Rating tertinggi</option></select></label></div>
-      <div class="filter-chips" id="filterChips">
-        <button class="filter-chip selected" data-filter="Semua">Semua</button><button class="filter-chip" data-filter="Terdekat">Terdekat</button><button class="filter-chip" data-filter="Tahunan">Sewa Tahunan</button><button class="filter-chip" data-filter="Bulanan">Sewa Bulanan</button><button class="filter-chip" data-filter="Termurah">Termurah</button>
+      <div class="search-tools"><label class="search-field"><span>⌕</span><input id="searchQuery" type="search" placeholder="Nama kos, daerah, atau fasilitas..."></label><label class="filter-select"><span>Urutkan</span><select id="sortSelect"><option value="recommended">Rekomendasi</option><option value="low">Harga terendah</option><option value="high">Harga tertinggi</option></select></label></div>
+      <div class="nearby-tools panel"><div><b>Temukan kos di sekitar wilayahmu</b><p class="muted">Masukkan nama kelurahan, kecamatan, atau area kampus. Hasil akan disaring berdasarkan lokasi yang tercatat pada listing.</p></div><div class="nearby-input-row"><label class="search-field"><span>⌖</span><input id="userArea" type="search" placeholder="Contoh: Karangwangkal, UNSOED, Kembaran" autocomplete="address-level3"></label><button type="button" class="primary-btn" id="applyNearby">Cari sekitar</button><button type="button" class="secondary-btn" id="clearNearby">Reset</button></div><p id="nearbyMessage" class="form-footnote" aria-live="polite">Pencarian berdasarkan wilayah; jarak kilometer hanya bisa ditampilkan jika koordinat properti tersedia.</p></div>
+      <div class="advanced-filters panel" aria-label="Filter lanjutan">
+        <div class="advanced-filter-grid">
+          <label>Harga minimum (Rp/bulan)<input id="minPrice" type="number" min="0" step="50000" placeholder="Contoh: 500000"></label>
+          <label>Harga maksimum (Rp/bulan)<input id="maxPrice" type="number" min="0" step="50000" placeholder="Contoh: 1500000"></label>
+          <label>Tipe penghuni<select id="occupantFilter"><option value="">Semua tipe</option><option value="Putra">Putra</option><option value="Putri">Putri</option><option value="Campur">Campur</option></select></label>
+          <label>Fasilitas<select id="amenityFilter"><option value="">Semua fasilitas</option><option value="Wi-Fi">Wi-Fi</option><option value="AC">AC</option><option value="Kamar mandi dalam">Kamar mandi dalam</option><option value="Kasur">Kasur</option><option value="Parkir">Parkir</option><option value="Dapur">Dapur</option></select></label>
+          <button type="button" class="primary-btn" id="applyFilters">Terapkan filter</button>
+          <button type="button" class="secondary-btn" id="resetAdvancedFilters">Reset filter</button>
+        </div>
       </div>
-      <div class="property-grid search-grid" id="searchProperties"></div>
+      <p class="form-footnote search-status" id="searchStatus" role="status" aria-live="polite">Memuat data kos…</p>
+      <div class="filter-chips" id="filterChips">
+        <button class="filter-chip selected" data-filter="Semua">Semua</button><button class="filter-chip" data-filter="Terdekat">Terdekat</button><button class="filter-chip" data-filter="Bulanan">Sewa Bulanan</button><button class="filter-chip" data-filter="Termurah">Termurah</button>
+      </div>
+      <div class="search-extra-actions"><button class="secondary-btn" type="button" data-nav="map">Lihat di peta ↗</button><button class="secondary-btn" type="button" data-nav="compare">Bandingkan pilihan <span id="compareQuickCount">0</span></button></div>
+      <div class="property-grid search-grid" id="searchProperties" aria-live="polite" aria-busy="true"></div>
       <div class="empty-state hidden" id="emptyState"><span>⌕</span><h3>Kos belum ditemukan</h3><p>Coba kata kunci atau filter lainnya.</p><button class="primary-btn" id="resetSearch">Reset pencarian</button></div>
+    </section>
+
+    <section class="view" id="view-map">
+      <div class="page-heading"><div><span class="eyebrow">Jelajahi area</span><h1>Cari kos di peta</h1><p>Ketik nama kos yang sudah terdaftar, lalu tekan tombol pencarian untuk memusatkan peta ke alamatnya.</p></div><span class="result-chip" id="mapCount">40 pilihan kos</span></div>
+      <form class="map-search-bar" id="mapSearchForm" role="search">
+        <label class="map-search-field" for="mapSearchInput"><span>Nama kos atau alamat</span><input id="mapSearchInput" name="mapSearch" list="mapPropertySuggestions" type="search" placeholder="Contoh: Kost Ilham" autocomplete="off" required><datalist id="mapPropertySuggestions"></datalist></label>
+        <button class="primary-btn" id="mapSearchButton" type="submit">⌕ Cari di peta</button>
+        <button class="secondary-btn" id="mapSearchReset" type="button">Reset</button>
+      </form>
+      <div id="mapSearchResult" class="map-search-result" aria-live="polite">Cari kos berdasarkan nama. Peta akan menampilkan lokasi jika koordinat atau hasil pencarian alamat tersedia.</div>
+      <div id="propertyMap" class="property-map" role="region" aria-label="Peta lokasi kos"></div>
+      <div id="mapNotice" class="map-notice" role="status">Peta siap digunakan. Pilih nama kos untuk mencari lokasinya.</div>
+      <div class="map-search-links"><span id="mapSelectedName">Belum ada kos dipilih</span><a id="mapGoogleLink" class="secondary-btn hidden" href="#" target="_blank" rel="noopener noreferrer">Buka di Google Maps ↗</a><button id="mapSelectedDetail" class="secondary-btn hidden" type="button">Lihat detail kos</button></div>
+    </section>
+
+    <section class="view" id="view-compare">
+      <div class="page-heading"><div><span class="eyebrow">Pilih dengan yakin</span><h1>Bandingkan kos</h1><p>Pilih maksimal tiga kos dari daftar untuk membandingkan harga, lokasi, fasilitas, dan tipe penghuni.</p></div><span class="result-chip" id="compareHeadingCount">0 dari 3 kos</span></div>
+      <div class="compare-toolbar"><p class="muted">Kamu bisa menambahkan atau menghapus pilihan kapan saja.</p><button class="secondary-btn" id="clearCompare" type="button">Kosongkan pilihan</button></div>
+      <div id="compareContent" class="compare-content"></div>
+      <div id="compareEmpty" class="empty-state"><span>⇄</span><h3>Belum ada kos untuk dibandingkan</h3><p>Buka Cari Kos, lalu tekan tombol “Bandingkan” pada kartu kos.</p><button class="primary-btn" data-nav="search">Pilih kos</button></div>
     </section>
 
     <section class="view" id="view-detail">
@@ -85,11 +123,15 @@
       <div class="booking-layout">
         <form class="panel booking-form" id="bookingForm">
           <h2>Informasi calon penghuni</h2><p class="muted">Pastikan data yang kamu masukkan sudah benar.</p>
-          <div class="form-row"><label>Nama lengkap<input name="fullname" required placeholder="Masukkan nama lengkap"></label><label>Nomor telepon<input name="phone" type="tel" required minlength="9" placeholder="08xxxxxxxxxx"></label></div>
+          <div class="form-row"><label>Nama lengkap<input name="fullname" required minlength="3" maxlength="80" autocomplete="name" placeholder="Masukkan nama lengkap"></label><label>Nomor telepon<input name="phone" type="tel" required minlength="9" maxlength="18" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx"></label></div>
           <div class="form-row"><label>Tanggal mulai sewa<input name="startDate" type="date" required id="startDate"></label><label>Durasi sewa<select name="duration" id="duration"><option value="1">1 bulan</option><option value="3">3 bulan</option><option value="6">6 bulan</option><option value="12">12 bulan</option></select></label></div>
           <label>Catatan untuk pemilik (opsional)<textarea name="notes" rows="3" placeholder="Contoh: ingin bertanya terkait parkir motor..."></textarea></label>
           <div class="form-divider"></div><h3>Metode pembayaran</h3>
-          <div class="payment-options"><label class="payment-option"><input type="radio" name="payment" value="Virtual Account" checked><span class="pay-icon">▤</span><span><b>Virtual Account</b><small>Transfer bank</small></span></label><label class="payment-option"><input type="radio" name="payment" value="QRIS"><span class="pay-icon">▦</span><span><b>QRIS</b><small>Pembayaran digital</small></span></label><label class="payment-option"><input type="radio" name="payment" value="E-Wallet"><span class="pay-icon">▣</span><span><b>E-Wallet</b><small>Dompet digital</small></span></label></div>
+          <div class="payment-method-groups">
+            <h4>Transfer bank / Virtual Account</h4><div class="payment-options"><label class="payment-option"><input type="radio" name="payment" value="BCA Virtual Account" checked><span class="pay-icon">B</span><span><b>BCA</b><small>Virtual Account</small></span></label><label class="payment-option"><input type="radio" name="payment" value="BRI Virtual Account"><span class="pay-icon">BRI</span><span><b>BRI</b><small>Virtual Account</small></span></label><label class="payment-option"><input type="radio" name="payment" value="BNI Virtual Account"><span class="pay-icon">BNI</span><span><b>BNI</b><small>Virtual Account</small></span></label><label class="payment-option"><input type="radio" name="payment" value="Mandiri Virtual Account"><span class="pay-icon">M</span><span><b>Mandiri</b><small>Virtual Account</small></span></label></div>
+            <h4>Dompet digital & QR</h4><div class="payment-options"><label class="payment-option"><input type="radio" name="payment" value="QRIS"><span class="pay-icon">▦</span><span><b>QRIS</b><small>Simulasi scan QR</small></span></label><label class="payment-option"><input type="radio" name="payment" value="GoPay"><span class="pay-icon">G</span><span><b>GoPay</b><small>Dompet digital</small></span></label><label class="payment-option"><input type="radio" name="payment" value="DANA"><span class="pay-icon">D</span><span><b>DANA</b><small>Dompet digital</small></span></label><label class="payment-option"><input type="radio" name="payment" value="OVO"><span class="pay-icon">O</span><span><b>OVO</b><small>Dompet digital</small></span></label><label class="payment-option"><input type="radio" name="payment" value="ShopeePay"><span class="pay-icon">S</span><span><b>ShopeePay</b><small>Dompet digital</small></span></label></div>
+            <h4>Alternatif</h4><div class="payment-options"><label class="payment-option"><input type="radio" name="payment" value="Bayar langsung ke pengelola"><span class="pay-icon">⌂</span><span><b>Bayar langsung</b><small>Konfirmasi dengan pengelola</small></span></label></div>
+          </div><p class="form-footnote payment-demo-note">Semua metode di atas hanya pilihan simulasi. Tidak ada nomor rekening, QR pembayaran, atau transaksi nyata yang diproses oleh prototipe.</p>
           <button class="primary-btn full-btn" type="submit">Konfirmasi pemesanan <span>→</span></button><p class="form-footnote">Prototipe pembelajaran: tidak ada transaksi atau pembayaran sungguhan.</p>
         </form>
         <aside class="panel summary-panel" id="bookingSummary"></aside>
@@ -116,13 +158,31 @@
 
     <section class="view" id="view-profile">
       <div class="page-heading"><div><span class="eyebrow">Akun pengguna</span><h1>Profil pengguna</h1><p>Kelola informasi sederhana akun prototipe kamu.</p></div></div>
-      <form class="panel profile-form" id="profileForm"><div class="profile-avatar-large">R</div><label>Nama pengguna<input name="name" id="profileName" value="Rosalina Yani" required></label><label>Email<input name="email" id="profileEmail" type="email" value="rosalina@example.com" required></label><button class="primary-btn" type="submit">Simpan perubahan</button><p class="muted" id="profileMessage" aria-live="polite"></p><button class="secondary-btn" type="button" id="resetData">Reset data demo</button></form>
+      <form class="panel profile-form" id="profileForm"><div class="profile-avatar-large">R</div><label>Nama pengguna<input name="name" id="profileName" value="Rosalina Yani" required minlength="3" maxlength="80" autocomplete="name"></label><label>Email<input name="email" id="profileEmail" type="email" value="rosalina@example.com" required maxlength="120" autocomplete="email"></label><button class="primary-btn" type="submit">Simpan perubahan</button><p class="muted" id="profileMessage" aria-live="polite"></p><button class="secondary-btn" type="button" id="logoutBtn">Keluar dari akun</button><button class="secondary-btn" type="button" id="resetData">Reset data demo</button></form>
+    </section>
+
+    <section class="view" id="view-chat">
+      <button class="back-link" data-back>← Kembali ke detail kos</button>
+      <div class="chat-shell panel">
+        <header class="chat-header"><div class="chat-avatar">⌂</div><div><h1 id="chatPropertyName">Chat pengelola kos</h1><p id="chatPropertyMeta" class="muted">Percakapan KossBill</p></div><span class="chat-demo-badge">Chat demo</span></header>
+        <div class="chat-notice">Pesan pada versi demo ini tersimpan di browser dan belum dikirim ke pemilik kos. Integrasi backend diperlukan agar pengelola benar-benar menerima pesan.</div>
+        <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+        <form class="chat-compose" id="chatForm"><label class="sr-only" for="chatInput">Tulis pesan</label><textarea id="chatInput" rows="1" maxlength="1000" required placeholder="Tulis pesan tentang kos ini..."></textarea><button class="primary-btn" type="submit" aria-label="Kirim pesan">Kirim ➤</button></form>
+      </div>
+    </section>
+
+    <section class="view auth-view" id="view-login">
+      <div class="auth-layout"><div class="auth-art"><img src="assets/Rectangle-7-1.jpg" alt="Interior kos yang nyaman"><div><span class="eyebrow">Selamat datang kembali</span><h2>Temukan tempat pulangmu.</h2><p>Masuk untuk menyimpan kos favorit dan mengelola rencana pemesananmu.</p></div></div><form class="auth-card" id="loginForm"><a class="brand auth-brand" href="#" data-nav="home"><span class="brand-mark">K</span><span>Koss<span>Bill</span><small>Temukan tempat pulang</small></span></a><span class="eyebrow">AKUN KOSSBILL</span><h1>Masuk ke akun</h1><p class="muted">Gunakan email dan kata sandi yang kamu daftarkan.</p><label>Email<input name="email" type="email" required maxlength="120" autocomplete="email" placeholder="nama@email.com"></label><label>Kata sandi<div class="password-wrap"><input name="password" type="password" required minlength="8" autocomplete="current-password" placeholder="Minimal 8 karakter"><button type="button" class="toggle-password" data-toggle-password aria-label="Tampilkan kata sandi">Lihat</button></div></label><p class="auth-message" id="loginMessage" aria-live="polite"></p><button class="primary-btn full-btn" type="submit">Masuk <span>→</span></button><p class="auth-switch">Belum punya akun? <button type="button" data-nav="signup">Daftar sekarang</button></p><p class="form-footnote">Demo akademik: akun hanya tersimpan di browser ini, bukan layanan autentikasi server.</p></form></div>
+    </section>
+    <section class="view auth-view" id="view-signup">
+      <div class="auth-layout"><div class="auth-art signup-art"><img src="assets/Rectangle-7-3.jpg" alt="Referensi visual KossBill"><div><span class="eyebrow">Mulai perjalananmu</span><h2>Buat akun KossBill.</h2><p>Simpan pilihan kos dan akses kembali aktivitasmu dari browser ini.</p></div></div><form class="auth-card" id="signupForm"><a class="brand auth-brand" href="#" data-nav="home"><span class="brand-mark">K</span><span>Koss<span>Bill</span><small>Temukan tempat pulang</small></span></a><span class="eyebrow">PENGGUNA BARU</span><h1>Buat akun</h1><p class="muted">Isi data singkat untuk mulai menggunakan KossBill.</p><label>Nama lengkap<input name="name" required minlength="3" maxlength="80" autocomplete="name" placeholder="Nama lengkap"></label><label>Email<input name="email" type="email" required maxlength="120" autocomplete="email" placeholder="nama@email.com"></label><label>Kata sandi<div class="password-wrap"><input name="password" type="password" required minlength="8" autocomplete="new-password" placeholder="Minimal 8 karakter"><button type="button" class="toggle-password" data-toggle-password aria-label="Tampilkan kata sandi">Lihat</button></div></label><label>Konfirmasi kata sandi<input name="confirmPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="Ulangi kata sandi"></label><p class="auth-message" id="signupMessage" aria-live="polite"></p><button class="primary-btn full-btn" type="submit">Daftar <span>→</span></button><p class="auth-switch">Sudah punya akun? <button type="button" data-nav="login">Masuk</button></p><p class="form-footnote">Demo akademik: jangan gunakan kata sandi asli yang dipakai di layanan lain.</p></form></div>
     </section>
   </main>
 
-  <footer class="footer"><a class="brand footer-brand" href="#" data-nav="home"><span class="brand-mark">K</span><span>Koss<span>Bill</span><small>Temukan tempat pulang</small></span></a><p>Prototipe web interaktif untuk tugas Modul 7.</p><span>© 2026 KossBill · Demo, bukan layanan transaksi nyata</span></footer>
-  <nav class="mobile-nav" aria-label="Navigasi mobile"><button data-nav="home" class="active"><span>⌂</span>Beranda</button><button data-nav="search"><span>⌕</span>Cari</button><button data-nav="bookmarks"><span>♡</span>Wishlist</button><button data-nav="history"><span>◷</span>Riwayat</button><button data-nav="profile"><span>♙</span>Profil</button></nav>
+  <footer class="footer"><a class="brand footer-brand" href="#" data-nav="home"><span class="brand-mark">K</span><span>Koss<span>Bill</span><small>Temukan tempat pulang</small></span></a><p>Prototipe web interaktif untuk tugas Modul 7.</p><span>© 2026 KossBill · Demo, bukan layanan transaksi nyata</span><span id="dataVersion" class="form-footnote">KossBill · data lokal</span></footer>
+  <nav class="mobile-nav" aria-label="Navigasi mobile"><button data-nav="home" class="active"><span>⌂</span>Beranda</button><button data-nav="search"><span>⌕</span>Cari</button><button data-nav="compare"><span>⇄</span>Bandingkan</button><button data-nav="bookmarks"><span>♡</span>Wishlist</button><button data-nav="history"><span>◷</span>Riwayat</button><button data-nav="profile"><span>♙</span>Profil</button></nav>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="script.js"></script>
 </body>
 </html>
