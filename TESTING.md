@@ -49,3 +49,17 @@ Isi status (Lulus/Gagal), tanggal, browser, dan catatan setelah seluruh pengujia
 - [x] Perbandingan dibatasi maksimal tiga listing dan disimpan pada localStorage.
 - [x] Peta tidak membuat penanda jika data belum memiliki koordinat terverifikasi; daftar sumber tetap tersedia.
 - [ ] Pengujian klik end-to-end di browser pengguna belum dilakukan. Uji dengan Live Server dan koneksi internet sebelum demo akhir.
+
+
+## Skenario tambahan untuk demo mentor (belum otomatis dianggap lulus)
+
+- [ ] Buka URL publik pada mode Incognito tanpa login Netlify.
+- [ ] Cari kos berdasarkan nama dan gunakan tombol reset.
+- [ ] Pilih kos di peta; catat apakah pin tepat atau hanya hasil pencarian alamat.
+- [ ] Simpan wishlist pada akun demo A, logout, masuk akun demo B, pastikan tidak tampil data A.
+- [ ] Kembali ke akun A dan pastikan data demo A masih tersedia pada browser yang sama.
+- [ ] Isi pemesanan dengan data dummy; periksa validasi, konfirmasi, dan riwayat.
+- [ ] Uji chat demo dan pastikan pesan tidak diklaim terkirim ke pengelola.
+- [ ] Uji tampilan ponsel, pergantian tema, dan tidak ada error Console.
+
+**Status:** skenario tambahan ini belum dikonfirmasi lulus pada browser pengguna; centang setelah pengujian nyata.

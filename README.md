@@ -50,6 +50,36 @@ KossBill-Modul7/
 └── PRD-Modul-7.pdf
 ```
 
+## Sumber data dan layanan yang digunakan (untuk penilaian)
+
+| Komponen | Implementasi saat ini | Cara kerja / batasan |
+|---|---|---|
+| Data kos | `data/properties.json` (40 entri pada paket ini) | Dibaca melalui `fetch()` dari website; harga dan ketersediaan harus dikonfirmasi ke sumber/pengelola. |
+| Referensi listing | Rujukan Mamikos dan tautan Google Maps yang dicatat dalam `data/SUMBER-DATA.md` | Sumber beragam; **bukan** verifikasi independen bahwa seluruh data masih akurat. |
+| Foto listing | File lokal di `assets/` | Foto yang ditambahkan ke proyek tidak otomatis membuktikan kepemilikan atau izin penggunaan; verifikasi hak pakai sebelum publikasi luas. |
+| Peta | Leaflet/OpenStreetMap, pencarian lokasi eksternal, dan fallback Google Maps | Membutuhkan internet; titik dapat berupa perkiraan ketika koordinat presisi tidak tersedia. |
+| Form pemesanan | JavaScript + `localStorage` | **Simulasi**: validasi input dan penyimpanan riwayat lokal, bukan pengiriman ke pengelola. |
+| Login/daftar, wishlist, profil, chat | JavaScript + `localStorage` | Demo per browser; bukan backend atau autentikasi aman. |
+| MockAPI / Formspree | **Belum digunakan** | Tidak ada endpoint MockAPI/Formspree pada versi ini; jangan diklaim sudah terhubung. |
+
+## Panduan demo untuk mentor/dosen (± 5–10 menit)
+
+1. **Beranda** — buka [demo publik](https://kossbillpurwokerto.netlify.app/), perlihatkan navigasi dan rekomendasi kos.
+2. **Cari Kos** — buka menu **Cari Kos**, masukkan kata kunci nama/lokasi, terapkan filter, lalu reset untuk menunjukkan perubahan hasil.
+3. **Detail Kos** — pilih salah satu kartu kos, cek informasi, foto, fasilitas, harga, dan lokasi yang tersedia.
+4. **Peta** — buka menu **Peta**, cari nama kos, dan tunjukkan lokasi/hasil pencarian. Jelaskan bahwa lokasi bisa perkiraan jika koordinat asli belum diverifikasi.
+5. **Bandingkan & Wishlist** — pilih beberapa kos untuk dibandingkan, kemudian simpan satu kos ke wishlist.
+6. **Akun demo** — daftar atau login dengan **email dan kata sandi khusus demo**, bukan kredensial pribadi penting.
+7. **Pemesanan simulasi** — pilih kos dengan harga yang tersedia, isi formulir menggunakan **data dummy**, tunjukkan validasi dan konfirmasi, lalu buka **Riwayat**.
+8. **Data per akun** — logout, masuk dengan akun demo lain, dan perlihatkan bahwa wishlist/riwayat akun sebelumnya tidak ditampilkan pada alur normal.
+9. **Chat & tampilan** — coba chat demo (pesan tidak terkirim ke pengelola), ganti tema terang/gelap, lalu uji tampilan ponsel.
+
+**Catatan demo:** bila fitur tertentu tidak tampil atau gagal pada perangkat mentor, catat hasil sebenarnya di `TESTING.md`; jangan mengklaim seluruh skenario telah lulus sebelum diuji.
+
+## Prompt AI dan perbaikan manual
+
+Baca [`AI-PROMPT-LOG.md`](AI-PROMPT-LOG.md) untuk ringkasan permintaan bantuan AI dan perubahan yang dilakukan. Baca [`TESTING.md`](TESTING.md) untuk checklist dan batasan bukti pengujian. Log bersifat ringkasan kerja, bukan transkrip lengkap percakapan.
+
 ## Pengujian
 
 Lihat [`TESTING.md`](TESTING.md) untuk checklist pengujian manual dan [`AI-PROMPT-LOG.md`](AI-PROMPT-LOG.md) untuk ringkasan penggunaan AI. Lakukan pengujian ulang pada browser yang digunakan sebelum menyerahkan atau memublikasikan perubahan.
